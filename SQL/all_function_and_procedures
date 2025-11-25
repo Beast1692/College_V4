@@ -1,0 +1,157 @@
+DELIMITER //
+DROP FUNCTION IF EXISTS af25nathm1_collegev3.fn_get_student_enrollment_count;//
+CREATE FUNCTION af25nathm1_collegev3.fn_get_student_enrollment_count(p_student_id INT) RETURNS INT
+DETERMINISTIC
+BEGIN
+  DECLARE v_cnt INT;
+  SELECT COUNT(*) INTO v_cnt
+    FROM af25nathm1_collegev3.enrollment
+    WHERE student_student_id = p_student_id;
+  RETURN IFNULL(v_cnt,0);
+END//
+DELIMITER ;
+
+DROP FUNCTION IF EXISTS af25nathm1_collegev3.fn_get_student_avg_grade_point;
+DELIMITER //
+CREATE FUNCTION af25nathm1_collegev3.fn_get_student_avg_grade_point(p_student_id INT) RETURNS DECIMAL(5,2)
+DETERMINISTIC
+BEGIN
+  DECLARE v_avg DECIMAL(5,2);
+  SELECT AVG(lg.lookup_grade_point_value) INTO v_avg
+    FROM af25nathm1_collegev3.enrollment e
+    JOIN af25nathm1_collegev3.lookup_grade lg ON e.lookup_grade_id = lg.lookup_grade_id
+    WHERE e.student_student_id = p_student_id;
+  RETURN IFNULL(v_avg,0.00);
+END//
+DELIMITER ;
+
+DELIMITER //
+DROP FUNCTION IF EXISTS af25nathm1_collegev3.fn_is_employee_qualified_for_department;//
+CREATE FUNCTION af25nathm1_collegev3.fn_is_employee_qualified_for_department(
+  in_employee_id INT,
+  in_department_id INT
+)
+RETURNS BOOLEAN
+DETERMINISTIC
+READS SQL DATA
+BEGIN
+  DECLARE emp_role_level INT DEFAULT 0;
+  DECLARE required_level INT DEFAULT 50; 
+  DECLARE is_already_head INT DEFAULT 0;
+  
+  SELECT COALESCE(ler.lookup_employee_role_security_level, 0) INTO emp_role_level
+  FROM af25nathm1_collegev3.employee e
+  JOIN af25nathm1_collegev3.lookup_employee_role ler 
+    ON e.lookup_employee_role_id = ler.lookup_employee_role_id
+  WHERE e.employee_id = in_employee_id;
+  
+  SELECT COUNT(*) INTO is_already_head
+  FROM af25nathm1_collegev3.department
+  WHERE employee_id = in_employee_id 
+    AND department_id != in_department_id;
+  
+  RETURN (emp_role_level >= required_level AND is_already_head = 0);
+END//
+DELIMITER ;
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS af25nathm1_collegev3.assign_employee_to_department;//
+CREATE PROCEDURE af25nathm1_collegev3.assign_employee_to_department(
+    IN in_employee_id INT,
+    IN in_department_id INT
+)
+BEGIN
+    DECLARE v_exists INT DEFAULT 0;
+    DECLARE v_is_qualified BOOLEAN DEFAULT FALSE;
+
+    START TRANSACTION;
+
+    SELECT COUNT(*) INTO v_exists FROM af25nathm1_collegev3.employee WHERE employee_id = in_employee_id;
+    IF v_exists = 0 THEN
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Employee not found';
+    END IF;
+
+    SELECT COUNT(*) INTO v_exists FROM af25nathm1_collegev3.department WHERE department_id = in_department_id;
+    IF v_exists = 0 THEN
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Department not found';
+    END IF;
+
+    SET v_is_qualified = af25nathm1_collegev3.fn_is_employee_qualified_for_department(in_employee_id, in_department_id);
+    IF v_is_qualified = FALSE THEN
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Employee not qualified: insufficient security level or already heads another department';
+    END IF;
+
+    UPDATE af25nathm1_collegev3.department
+    SET employee_id = in_employee_id
+    WHERE department_id = in_department_id;
+
+    SELECT department_id, department_name, employee_id
+    FROM af25nathm1_collegev3.department
+    WHERE department_id = in_department_id;
+
+    COMMIT;
+END //
+DELIMITER ;
+
+DELIMITER //
+
+
+CREATE OR REPLACE PROCEDURE af25nathm1_collegev3.sp_enroll_student(
+  IN p_student_id INT,
+  IN p_semester_id INT,
+  IN p_audit_user_id INT,
+  OUT p_enrollment_id INT
+)
+BEGIN
+  DECLARE v_exists INT DEFAULT 0;
+
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+    ROLLBACK;
+    SET p_enrollment_id = -1;
+  END;
+
+  START TRANSACTION;
+
+  IF p_student_id IS NULL OR p_student_id <= 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid student_id';
+  END IF;
+
+  IF p_semester_id IS NULL OR p_semester_id <= 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid semester_id';
+  END IF;
+
+  IF p_audit_user_id IS NULL OR p_audit_user_id <= 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid audit_user_id';
+  END IF;
+
+  SELECT COUNT(*) INTO v_exists FROM af25nathm1_collegev3.student WHERE student_id = p_student_id;
+  IF v_exists = 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Student not found';
+  END IF;
+
+  SELECT COUNT(*) INTO v_exists FROM af25nathm1_collegev3.semester WHERE semester_id = p_semester_id;
+  IF v_exists = 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Semester not found';
+  END IF;
+
+  SELECT COUNT(*) INTO v_exists
+  FROM af25nathm1_collegev3.enrollment
+  WHERE student_student_id = p_student_id AND semester_id = p_semester_id;
+  IF v_exists > 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Student already enrolled for this semester';
+  END IF;
+
+  INSERT INTO af25nathm1_collegev3.enrollment
+    (enrollment_status, audit_user_id, student_student_id, semester_id, lookup_grade_id)
+  VALUES
+    ('Active', p_audit_user_id, p_student_id, p_semester_id, NULL);
+
+  SET p_enrollment_id = LAST_INSERT_ID();
+
+  COMMIT;
+END//
+DELIMITER ;
