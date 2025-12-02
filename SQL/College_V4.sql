@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `af25nathm1_collegev3` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `af25nathm1_collegev3`;
--- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `af25onalm1_collegev4` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `af25onalm1_collegev4`;
+-- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
--- Host: localhost    Database: af25nathm1_collegev3
+-- Host: localhost    Database: af25onalm1_collegev4
 -- ------------------------------------------------------
 -- Server version	5.5.5-10.11.6-MariaDB-0+deb12u1
 
@@ -429,6 +429,8 @@ CREATE TABLE `user` (
   `user_audited` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `employee_employee_id` int(11) DEFAULT NULL,
   `student_id` int(11) DEFAULT NULL,
+  `system_userid` varchar(50) NOT NULL,
+  `campus_email` varchar(50) NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `fk_user_employee_idx` (`employee_employee_id`),
   KEY `first_name` (`user_fname`),
@@ -445,16 +447,16 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (5,'Alice','Johnson','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',1,NULL),(6,'Bob','Smith','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',2,NULL),(7,'Charlie','Brown','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,1),(8,'Diana','Lopez','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,2),(9,'Ethan','White','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',3,NULL),(10,'Fiona','Green','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',4,NULL),(11,'George','Adams','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,3),(12,'Hannah','Nelson','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,4),(13,'Ian','Baker','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',5,NULL),(14,'Julia','Carter','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',6,NULL),(15,'Kevin','Mitchell','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,5),(16,'Laura','Perez','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,6),(17,'Mike','Roberts','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',7,NULL),(18,'Nina','Turner','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',8,NULL),(19,'Oscar','Phillips','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,7),(20,'Paula','Campbell','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,8),(21,'Quinn','Parker','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',9,NULL),(22,'Rachel','Evans','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',10,NULL),(23,'Sam','Edwards','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,9),(24,'Tina','Collins','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,10),(25,'Ulysses','Stewart','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',11,NULL),(26,'Vera','Morris','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',12,NULL),(27,'Will','Murphy','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,11),(28,'Xena','Cook','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,12),(29,'Yuri','Rogers','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',13,NULL),(30,'Zoe','Reed','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',14,NULL),(31,'Jack','Hunt','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,18),(32,'Oliver','King','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',1,NULL),(33,'Emma','Scott','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',2,NULL),(34,'Noah','Reed','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',3,NULL),(35,'Ava','Murphy','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',4,NULL),(36,'Liam','Brooks','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',5,NULL),(37,'Sophia','Jenkins','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',6,NULL),(38,'Mason','Perez','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',7,NULL),(39,'Isabella','Long','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',8,NULL),(40,'Lucas','Cruz','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',9,NULL),(41,'Mia','Reynolds','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',10,NULL),(42,'Ethan','Bell','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',11,NULL),(43,'Harper','Cole','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',12,NULL),(44,'James','Woods','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',13,NULL),(45,'Amelia','Fisher','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',14,NULL),(46,'Benjamin','Warren','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',15,NULL),(47,'Evelyn','Hart','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',16,NULL),(48,'Logan','Santos','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',17,NULL),(49,'Abigail','Patterson','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',18,NULL),(50,'Caleb','Gomez','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',19,NULL),(51,'Ella','Morris','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',20,NULL),(52,'Oliver','Reyes','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',21,NULL),(53,'Scarlett','Hunt','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',22,NULL),(54,'Jacob','Wang','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',23,NULL),(55,'Luna','Flores','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',24,NULL),(56,'Daniel','Khan','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',25,NULL),(57,'Grace','Kim','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',26,NULL),(58,'Henry','Nguyen','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',27,NULL),(59,'Zoe','Park','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',28,NULL),(60,'Owen','Diaz','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',29,NULL),(61,'Addison','Foster','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',30,NULL);
+INSERT INTO `user` VALUES (5,'Alice','Johnson','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',1,NULL,'',''),(6,'Bob','Smith','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',2,NULL,'',''),(7,'Charlie','Brown','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,1,'',''),(8,'Diana','Lopez','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,2,'',''),(9,'Ethan','White','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',3,NULL,'',''),(10,'Fiona','Green','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',4,NULL,'',''),(11,'George','Adams','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,3,'',''),(12,'Hannah','Nelson','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,4,'',''),(13,'Ian','Baker','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',5,NULL,'',''),(14,'Julia','Carter','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',6,NULL,'',''),(15,'Kevin','Mitchell','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,5,'',''),(16,'Laura','Perez','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,6,'',''),(17,'Mike','Roberts','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',7,NULL,'',''),(18,'Nina','Turner','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',8,NULL,'',''),(19,'Oscar','Phillips','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,7,'',''),(20,'Paula','Campbell','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,8,'',''),(21,'Quinn','Parker','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',9,NULL,'',''),(22,'Rachel','Evans','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',10,NULL,'',''),(23,'Sam','Edwards','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,9,'',''),(24,'Tina','Collins','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,10,'',''),(25,'Ulysses','Stewart','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',11,NULL,'',''),(26,'Vera','Morris','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',12,NULL,'',''),(27,'Will','Murphy','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,11,'',''),(28,'Xena','Cook','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,12,'',''),(29,'Yuri','Rogers','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',13,NULL,'',''),(30,'Zoe','Reed','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',14,NULL,'',''),(31,'Jack','Hunt','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,18,'',''),(32,'Oliver','King','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',1,NULL,'',''),(33,'Emma','Scott','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',2,NULL,'',''),(34,'Noah','Reed','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',3,NULL,'',''),(35,'Ava','Murphy','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',4,NULL,'',''),(36,'Liam','Brooks','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',5,NULL,'',''),(37,'Sophia','Jenkins','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',6,NULL,'',''),(38,'Mason','Perez','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',7,NULL,'',''),(39,'Isabella','Long','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',8,NULL,'',''),(40,'Lucas','Cruz','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',9,NULL,'',''),(41,'Mia','Reynolds','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',10,NULL,'',''),(42,'Ethan','Bell','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',11,NULL,'',''),(43,'Harper','Cole','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',12,NULL,'',''),(44,'James','Woods','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',13,NULL,'',''),(45,'Amelia','Fisher','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',14,NULL,'',''),(46,'Benjamin','Warren','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',15,NULL,'',''),(47,'Evelyn','Hart','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',16,NULL,'',''),(48,'Logan','Santos','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',17,NULL,'',''),(49,'Abigail','Patterson','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',18,NULL,'',''),(50,'Caleb','Gomez','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',19,NULL,'',''),(51,'Ella','Morris','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',20,NULL,'',''),(52,'Oliver','Reyes','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',21,NULL,'',''),(53,'Scarlett','Hunt','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',22,NULL,'',''),(54,'Jacob','Wang','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',23,NULL,'',''),(55,'Luna','Flores','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',24,NULL,'',''),(56,'Daniel','Khan','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',25,NULL,'',''),(57,'Grace','Kim','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',26,NULL,'',''),(58,'Henry','Nguyen','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',27,NULL,'',''),(59,'Zoe','Park','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',28,NULL,'',''),(60,'Owen','Diaz','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',29,NULL,'',''),(61,'Addison','Foster','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',30,NULL,'','');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'af25nathm1_collegev3'
+-- Dumping events for database 'af25onalm1_collegev4'
 --
 
 --
--- Dumping routines for database 'af25nathm1_collegev3'
+-- Dumping routines for database 'af25onalm1_collegev4'
 --
 /*!50003 DROP FUNCTION IF EXISTS `available_seats` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -466,7 +468,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25nathm1`@`localhost` FUNCTION `available_seats`(in_section_id INT) RETURNS int(11)
+CREATE DEFINER=`af25onalm1`@`localhost` FUNCTION `available_seats`(in_section_id INT) RETURNS int(11)
     READS SQL DATA
     DETERMINISTIC
 BEGIN
@@ -493,6 +495,35 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP FUNCTION IF EXISTS `generate_base_userid` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`af25onalm1`@`localhost` FUNCTION `generate_base_userid`(fname VARCHAR(50), lname VARCHAR(50)) RETURNS varchar(50) CHARSET utf8mb4 COLLATE utf8mb4_general_ci
+    DETERMINISTIC
+BEGIN
+    DECLARE base VARCHAR(50);
+
+    -- Take first 2 letters of first name
+    -- Take up to 5 letters of last name (or entire last name if shorter)
+    SET base = LOWER(CONCAT(
+        LEFT(fname, 2),
+        LEFT(lname, LEAST(5, CHAR_LENGTH(lname)))
+    ));
+
+    RETURN base;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `assign_employee_to_department` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -503,7 +534,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25nathm1`@`localhost` PROCEDURE `assign_employee_to_department`(
+CREATE DEFINER=`af25onalm1`@`localhost` PROCEDURE `assign_employee_to_department`(
     IN in_employee_id INT,
     IN in_department_id INT
 )
@@ -542,6 +573,76 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_enroll_student` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`af25onalm1`@`localhost` PROCEDURE `sp_enroll_student`(
+  IN p_student_id INT,
+  IN p_semester_id INT,
+  IN p_audit_user_id INT,
+  OUT p_enrollment_id INT
+)
+BEGIN
+  DECLARE v_exists INT DEFAULT 0;
+
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+    ROLLBACK;
+    SET p_enrollment_id = -1;
+  END;
+
+  START TRANSACTION;
+
+  IF p_student_id IS NULL OR p_student_id <= 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid student_id';
+  END IF;
+
+  IF p_semester_id IS NULL OR p_semester_id <= 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid semester_id';
+  END IF;
+
+  IF p_audit_user_id IS NULL OR p_audit_user_id <= 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid audit_user_id';
+  END IF;
+
+  SELECT COUNT(*) INTO v_exists FROM af25nathm1_collegev3.student WHERE student_id = p_student_id;
+  IF v_exists = 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Student not found';
+  END IF;
+
+  SELECT COUNT(*) INTO v_exists FROM af25nathm1_collegev3.semester WHERE semester_id = p_semester_id;
+  IF v_exists = 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Semester not found';
+  END IF;
+
+  SELECT COUNT(*) INTO v_exists
+  FROM af25nathm1_collegev3.enrollment
+  WHERE student_student_id = p_student_id AND semester_id = p_semester_id;
+  IF v_exists > 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Student already enrolled for this semester';
+  END IF;
+
+  INSERT INTO af25nathm1_collegev3.enrollment
+    (enrollment_status, audit_user_id, student_student_id, semester_id, lookup_grade_id)
+  VALUES
+    ('Active', p_audit_user_id, p_student_id, p_semester_id, NULL);
+
+  SET p_enrollment_id = LAST_INSERT_ID();
+
+  COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -552,4 +653,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-25 12:48:26
+-- Dump completed on 2025-12-02 13:32:12
