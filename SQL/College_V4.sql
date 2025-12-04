@@ -450,9 +450,45 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES (5,'Alice','Johnson','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',1,NULL,'',''),(6,'Bob','Smith','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',2,NULL,'',''),(7,'Charlie','Brown','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,1,'',''),(8,'Diana','Lopez','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,2,'',''),(9,'Ethan','White','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',3,NULL,'',''),(10,'Fiona','Green','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',4,NULL,'',''),(11,'George','Adams','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,3,'',''),(12,'Hannah','Nelson','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,4,'',''),(13,'Ian','Baker','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',5,NULL,'',''),(14,'Julia','Carter','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',6,NULL,'',''),(15,'Kevin','Mitchell','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,5,'',''),(16,'Laura','Perez','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,6,'',''),(17,'Mike','Roberts','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',7,NULL,'',''),(18,'Nina','Turner','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',8,NULL,'',''),(19,'Oscar','Phillips','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,7,'',''),(20,'Paula','Campbell','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,8,'',''),(21,'Quinn','Parker','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',9,NULL,'',''),(22,'Rachel','Evans','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',10,NULL,'',''),(23,'Sam','Edwards','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,9,'',''),(24,'Tina','Collins','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,10,'',''),(25,'Ulysses','Stewart','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',11,NULL,'',''),(26,'Vera','Morris','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',12,NULL,'',''),(27,'Will','Murphy','2025-11-11 18:56:24',3,'2025-11-11 18:56:24',NULL,11,'',''),(28,'Xena','Cook','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,12,'',''),(29,'Yuri','Rogers','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',13,NULL,'',''),(30,'Zoe','Reed','2025-11-11 18:56:24',2,'2025-11-11 18:56:24',14,NULL,'',''),(31,'Jack','Hunt','2025-11-11 18:56:24',4,'2025-11-11 18:56:24',NULL,18,'',''),(32,'Oliver','King','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',1,NULL,'',''),(33,'Emma','Scott','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',2,NULL,'',''),(34,'Noah','Reed','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',3,NULL,'',''),(35,'Ava','Murphy','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',4,NULL,'',''),(36,'Liam','Brooks','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',5,NULL,'',''),(37,'Sophia','Jenkins','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',6,NULL,'',''),(38,'Mason','Perez','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',7,NULL,'',''),(39,'Isabella','Long','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',8,NULL,'',''),(40,'Lucas','Cruz','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',9,NULL,'',''),(41,'Mia','Reynolds','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',10,NULL,'',''),(42,'Ethan','Bell','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',11,NULL,'',''),(43,'Harper','Cole','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',12,NULL,'',''),(44,'James','Woods','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',13,NULL,'',''),(45,'Amelia','Fisher','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',14,NULL,'',''),(46,'Benjamin','Warren','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',15,NULL,'',''),(47,'Evelyn','Hart','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',16,NULL,'',''),(48,'Logan','Santos','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',17,NULL,'',''),(49,'Abigail','Patterson','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',18,NULL,'',''),(50,'Caleb','Gomez','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',19,NULL,'',''),(51,'Ella','Morris','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',20,NULL,'',''),(52,'Oliver','Reyes','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',21,NULL,'',''),(53,'Scarlett','Hunt','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',22,NULL,'',''),(54,'Jacob','Wang','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',23,NULL,'',''),(55,'Luna','Flores','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',24,NULL,'',''),(56,'Daniel','Khan','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',25,NULL,'',''),(57,'Grace','Kim','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',26,NULL,'',''),(58,'Henry','Nguyen','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',27,NULL,'',''),(59,'Zoe','Park','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',28,NULL,'',''),(60,'Owen','Diaz','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',29,NULL,'',''),(61,'Addison','Foster','2025-11-11 18:56:24',1,'2025-11-11 18:56:24',30,NULL,'','');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`af25onalm1`@`localhost`*/ /*!50003 TRIGGER trg_users_insert
+BEFORE INSERT ON user
+FOR EACH ROW
+BEGIN
+    DECLARE base VARCHAR(50);
+    DECLARE suffix INT DEFAULT 1;
+    DECLARE final_userid VARCHAR(50);
+
+    -- Generate base userid
+    SET base = generate_base_userid(NEW.user_fname, NEW.user_lname);
+    SET final_userid = base;
+
+    -- Ensure uniqueness
+    WHILE EXISTS (SELECT 1 FROM users WHERE system_userid = final_userid) DO
+        SET final_userid = CONCAT(base, suffix);
+        SET suffix = suffix + 1;
+    END WHILE;
+
+    -- Assign userid and campus email
+    SET NEW.system_userid = final_userid;
+    SET NEW.campus_email = CONCAT(final_userid, '@wsc.edu');
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Dumping events for database 'af25nathm1_collegev4'
+-- Dumping events for database 'af25onalm1_collegev4'
 --
 
 --
@@ -649,4 +685,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-12-02 13:32:12
+-- Dump completed on 2025-12-02 13:50:22
