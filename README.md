@@ -50,6 +50,7 @@ Below are the exported diagrams from MySQL Workbench. Click the images to view t
 
 ## Key Tables
 
+### Core Tables
 - `user` – Authentication & link to student / employee.
 - `student` – Admissions, graduation, enrollment link.
 - `employee` – Faculty/Admin records with roles.
@@ -60,6 +61,12 @@ Below are the exported diagrams from MySQL Workbench. Click the images to view t
 - `semester` – Current and archived academic terms.
 - `room` / `building` – Physical classroom resources.
 - Lookups – Employee roles, grades.
+
+### Audit Tables (Change Tracking)
+- `enrollment_audit` – Tracks all enrollment status and grade changes.
+- `course_audit` – Tracks course name and credit hour modifications.
+- `student_audit` – Tracks admission and graduation date changes.
+- `user_audit` – Tracks user profile, system ID, and email changes.
 
 ## Views
 
@@ -80,6 +87,29 @@ The database includes several custom **SQL views** to simplify querying and repo
 
 > These views were built using `JOIN`, `GROUP BY`, `HAVING`, and `ORDER BY` clauses, and tested on sample data generated using `INSERT` statements.  
 > They are reusable across reporting tools or integrations with front-end dashboards.
+
+## Audit System
+
+The database includes a comprehensive **audit system** to track all changes to critical tables. This includes automatic audit tables, triggers, and scheduled events for change tracking and compliance.
+
+**For detailed audit system documentation, including:**
+- How audit tables work
+- Trigger reference guide
+- System user ID and campus email generation
+- Monthly purge events
+- Common audit queries
+- Best practices and troubleshooting
+
+**See the [Audit System Guide](/assets/AUDIT_SYSTEM_GUIDE.md)**
+
+### Quick Overview
+
+| Audit Table | Source Table | Tracked Changes |
+|-------------|-------------|-----------------|
+| `enrollment_audit` | `enrollment` | Status changes, grade updates |
+| `course_audit` | `course` | Name and credit hour modifications |
+| `student_audit` | `student` | Admission and graduation date changes |
+| `user_audit` | `user` | User profile, system ID, and email changes |
 
 ## SQL Procedures, Functions & Transactions
 

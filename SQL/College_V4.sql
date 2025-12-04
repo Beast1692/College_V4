@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `af25onalm1_collegev4` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `af25onalm1_collegev4`;
+CREATE DATABASE  IF NOT EXISTS `af25nathm1_collegev4` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `af25nathm1_collegev4`;
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
--- Host: localhost    Database: af25onalm1_collegev4
+-- Host: localhost    Database: af25nathm1_collegev4
 -- ------------------------------------------------------
 -- Server version	5.5.5-10.11.6-MariaDB-0+deb12u1
 
@@ -55,9 +55,9 @@ CREATE TABLE `course` (
   `course_id` int(11) NOT NULL AUTO_INCREMENT,
   `course_name` varchar(255) DEFAULT NULL,
   `course_credit_hours` int(11) DEFAULT NULL,
-  `course_created` timestamp NULL DEFAULT current_timestamp(),
-  `audit_user_id` int(11) NOT NULL,
-  `course_audited` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `course_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `audit_user_id` varchar(50) DEFAULT SUBSTRING_INDEX(CURRENT_USER(), '@', 1),
+  `course_audited` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`course_id`),
   KEY `course_name` (`course_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -109,9 +109,9 @@ DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department` (
   `department_id` int(11) NOT NULL,
   `department_name` varchar(255) DEFAULT NULL,
-  `department_created` timestamp NULL DEFAULT current_timestamp(),
-  `audit_user_id` int(11) NOT NULL,
-  `department_audited` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `department_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `audit_user_id` varchar(50) DEFAULT SUBSTRING_INDEX(CURRENT_USER(), '@', 1),
+  `department_audited` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `employee_id` int(11) NOT NULL,
   PRIMARY KEY (`department_id`),
   KEY `department_name` (`department_name`),
@@ -141,9 +141,9 @@ CREATE TABLE `employee` (
   `employee_id` int(11) NOT NULL AUTO_INCREMENT,
   `employee_start_date` date DEFAULT NULL,
   `employee_end_date` date DEFAULT NULL,
-  `employee_created` timestamp NULL DEFAULT current_timestamp(),
-  `audit_user_id` int(11) NOT NULL,
-  `employee_edited` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `employee_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `audit_user_id` varchar(50) DEFAULT SUBSTRING_INDEX(CURRENT_USER(), '@', 1),
+  `employee_edited` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `lookup_employee_role_id` int(11) NOT NULL,
   PRIMARY KEY (`employee_id`),
   KEY `fk_employee_lookup_employee_role1_idx` (`lookup_employee_role_id`),
@@ -171,9 +171,9 @@ DROP TABLE IF EXISTS `enrollment`;
 CREATE TABLE `enrollment` (
   `enrollment_id` int(11) NOT NULL AUTO_INCREMENT,
   `enrollment_status` varchar(255) DEFAULT '"Active"',
-  `enrolment_created` timestamp NULL DEFAULT current_timestamp(),
-  `audit_user_id` int(11) NOT NULL,
-  `enrollment_audited` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `enrolment_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `audit_user_id` varchar(50) DEFAULT SUBSTRING_INDEX(CURRENT_USER(), '@', 1),
+  `enrollment_audited` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `student_student_id` int(11) NOT NULL,
   `semester_id` int(11) NOT NULL,
   `lookup_grade_id` int(11) DEFAULT NULL,
@@ -396,9 +396,9 @@ CREATE TABLE `student` (
   `student_id` int(11) NOT NULL AUTO_INCREMENT,
   `student_admission_date` date DEFAULT NULL,
   `student_graduation_date` date DEFAULT NULL,
-  `student_created` timestamp NULL DEFAULT current_timestamp(),
-  `audit_user_id` int(11) NOT NULL,
-  `faculty_edited` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `student_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `audit_user_id` varchar(50) DEFAULT SUBSTRING_INDEX(CURRENT_USER(), '@', 1),
+  `faculty_edited` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`student_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -424,13 +424,13 @@ CREATE TABLE `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_fname` varchar(255) DEFAULT NULL,
   `user_lname` varchar(255) DEFAULT NULL,
-  `user_created` timestamp NULL DEFAULT current_timestamp(),
-  `audit_id` int(11) NOT NULL,
-  `user_audited` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `user_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `audit_id` varchar(50) DEFAULT SUBSTRING_INDEX(CURRENT_USER(), '@', 1),
+  `user_audited` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `employee_employee_id` int(11) DEFAULT NULL,
   `student_id` int(11) DEFAULT NULL,
-  `system_userid` varchar(50) NOT NULL,
-  `campus_email` varchar(50) NOT NULL,
+  `system_userid` varchar(50) NULL DEFAULT NULL,
+  `campus_email` varchar(100) NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   KEY `fk_user_employee_idx` (`employee_employee_id`),
   KEY `first_name` (`user_fname`),
@@ -452,11 +452,11 @@ INSERT INTO `user` VALUES (5,'Alice','Johnson','2025-11-11 18:56:24',1,'2025-11-
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'af25onalm1_collegev4'
+-- Dumping events for database 'af25nathm1_collegev4'
 --
 
 --
--- Dumping routines for database 'af25onalm1_collegev4'
+-- Dumping routines for database 'af25nathm1_collegev4'
 --
 /*!50003 DROP FUNCTION IF EXISTS `available_seats` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -468,7 +468,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25onalm1`@`localhost` FUNCTION `available_seats`(in_section_id INT) RETURNS int(11)
+CREATE DEFINER=`af25nathm1`@`localhost` FUNCTION `available_seats`(in_section_id INT) RETURNS int(11)
     READS SQL DATA
     DETERMINISTIC
 BEGIN
@@ -505,7 +505,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25onalm1`@`localhost` FUNCTION `generate_base_userid`(fname VARCHAR(50), lname VARCHAR(50)) RETURNS varchar(50) CHARSET utf8mb4 COLLATE utf8mb4_general_ci
+CREATE DEFINER=`af25nathm1`@`localhost` FUNCTION `generate_base_userid`(fname VARCHAR(50), lname VARCHAR(50)) RETURNS varchar(50) CHARSET utf8mb4 COLLATE utf8mb4_general_ci
     DETERMINISTIC
 BEGIN
     DECLARE base VARCHAR(50);
@@ -534,7 +534,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25onalm1`@`localhost` PROCEDURE `assign_employee_to_department`(
+CREATE DEFINER=`af25nathm1`@`localhost` PROCEDURE `assign_employee_to_department`(
     IN in_employee_id INT,
     IN in_department_id INT
 )
@@ -583,7 +583,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25onalm1`@`localhost` PROCEDURE `sp_enroll_student`(
+CREATE DEFINER=`af25nathm1`@`localhost` PROCEDURE `sp_enroll_student`(
   IN p_student_id INT,
   IN p_semester_id INT,
   IN p_audit_user_id INT,
@@ -639,11 +639,7 @@ BEGIN
   COMMIT;
 END ;;
 DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
