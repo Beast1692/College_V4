@@ -459,7 +459,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`af25onalm1`@`localhost`*/ /*!50003 TRIGGER trg_users_insert
+/*!50003 CREATE*/ /*!50017 DEFINER=`af25nathm1`@`localhost`*/ /*!50003 TRIGGER trg_users_insert
 BEFORE INSERT ON user
 FOR EACH ROW
 BEGIN
@@ -488,7 +488,7 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Dumping events for database 'af25onalm1_collegev4'
+-- Dumping events for database 'af25nathm1_collegev4'
 --
 
 --
@@ -676,6 +676,129 @@ BEGIN
 END ;;
 DELIMITER ;
 
+--
+-- Table structure for table `enrollment_audit`
+--
+
+DROP TABLE IF EXISTS `enrollment_audit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `enrollment_audit` (
+  `enrollment_audit_id` int(11) NOT NULL AUTO_INCREMENT,
+  `enrollment_id` int(11) NOT NULL,
+  `action` varchar(50) DEFAULT NULL,
+  `old_enrollment_status` varchar(255) DEFAULT NULL,
+  `new_enrollment_status` varchar(255) DEFAULT NULL,
+  `old_lookup_grade_id` int(11) DEFAULT NULL,
+  `new_lookup_grade_id` int(11) DEFAULT NULL,
+  `changed_by` varchar(50) NOT NULL,
+  `changed_at` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`enrollment_audit_id`),
+  KEY `fk_enrollment_audit_enrollment_idx` (`enrollment_id`),
+  KEY `idx_audit_changed_at` (`changed_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enrollment_audit`
+--
+
+LOCK TABLES `enrollment_audit` WRITE;
+/*!40000 ALTER TABLE `enrollment_audit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enrollment_audit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Stored procedure for enrollment audit logging
+--
+
+DROP PROCEDURE IF EXISTS `sp_log_enrollment_audit`;
+DELIMITER ;;
+CREATE PROCEDURE `sp_log_enrollment_audit`(
+    IN p_enrollment_id INT,
+    IN p_action VARCHAR(50),
+    IN p_old_status VARCHAR(255),
+    IN p_new_status VARCHAR(255),
+    IN p_old_grade_id INT,
+    IN p_new_grade_id INT,
+    IN p_changed_by VARCHAR(50)
+)
+BEGIN
+    INSERT INTO `enrollment_audit` (
+        enrollment_id, action, 
+        old_enrollment_status, new_enrollment_status,
+        old_lookup_grade_id, new_lookup_grade_id, 
+        changed_by, changed_at
+    ) VALUES (
+        p_enrollment_id, p_action,
+        p_old_status, p_new_status,
+        p_old_grade_id, p_new_grade_id,
+        p_changed_by, NOW()
+    );
+END;;
+DELIMITER ;
+
+--
+-- Triggers for enrollment_audit table (INSERT, UPDATE, DELETE)
+--
+
+DROP TRIGGER IF EXISTS `enrollment_after_insert`;
+DELIMITER ;;
+CREATE TRIGGER `enrollment_after_insert` AFTER INSERT ON `enrollment`
+FOR EACH ROW
+BEGIN
+    CALL sp_log_enrollment_audit(
+        NEW.enrollment_id, 'INSERT', 
+        NULL, NEW.enrollment_status,
+        NULL, NEW.lookup_grade_id,
+        NEW.audit_user_id
+    );
+END;;
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS `enrollment_after_update`;
+DELIMITER ;;
+CREATE TRIGGER `enrollment_after_update` AFTER UPDATE ON `enrollment`
+FOR EACH ROW
+BEGIN
+    IF (OLD.enrollment_status != NEW.enrollment_status OR 
+        COALESCE(OLD.lookup_grade_id, 0) != COALESCE(NEW.lookup_grade_id, 0)) THEN
+        CALL sp_log_enrollment_audit(
+            NEW.enrollment_id, 'UPDATE',
+            OLD.enrollment_status, NEW.enrollment_status,
+            OLD.lookup_grade_id, NEW.lookup_grade_id,
+            NEW.audit_user_id
+        );
+    END IF;
+END;;
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS `enrollment_after_delete`;
+DELIMITER ;;
+CREATE TRIGGER `enrollment_after_delete` AFTER DELETE ON `enrollment`
+FOR EACH ROW
+BEGIN
+    CALL sp_log_enrollment_audit(
+        OLD.enrollment_id, 'DELETE',
+        OLD.enrollment_status, NULL,
+        OLD.lookup_grade_id, NULL,
+        SUBSTRING_INDEX(CURRENT_USER(), '@', 1)
+    );
+END;;
+DELIMITER ;
+
+--
+-- Events for monthly audit truncation
+--
+
+DROP EVENT IF EXISTS `truncate_enrollment_audit_monthly`;
+DELIMITER ;;
+CREATE EVENT `truncate_enrollment_audit_monthly`
+ON SCHEDULE EVERY 1 MONTH
+STARTS CURRENT_TIMESTAMP
+DO
+  DELETE FROM `enrollment_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH);;
+DELIMITER ;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
