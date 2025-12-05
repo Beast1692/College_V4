@@ -186,45 +186,26 @@ WHERE user_id = 1;
 
 ## Triggers Reference
 
-### Table: enrollment
+### Current Implementation
+
+**Enrollment Audit System** (Fully Implemented)
+The enrollment table includes three AFTER triggers that automatically log all INSERT, UPDATE, and DELETE operations to the `enrollment_audit` table. These triggers capture:
+- The user making the change (via CURRENT_USER())
+- The action type (INSERT, UPDATE, DELETE)
+- Before and after values for status and grades
+- Precise timestamps
 
 | Trigger | Type | Action |
 |---------|------|--------|
-| `enrollment_before_insert` | BEFORE INSERT | Captures CURRENT_USER into audit_user_id |
-| `enrollment_before_update` | BEFORE UPDATE | Captures CURRENT_USER into audit_user_id |
-| `enrollment_after_insert` | AFTER INSERT | Logs INSERT to enrollment_audit |
-| `enrollment_after_update` | AFTER UPDATE | Logs UPDATE to enrollment_audit (if values changed) |
-| `enrollment_after_delete` | AFTER DELETE | Logs DELETE to enrollment_audit |
+| `trg_enrollment_after_insert` | AFTER INSERT | Logs INSERT to enrollment_audit with new status and grades |
+| `trg_enrollment_after_update` | AFTER UPDATE | Logs UPDATE to enrollment_audit capturing before/after status and grades |
+| `trg_enrollment_after_delete` | AFTER DELETE | Logs DELETE to enrollment_audit with final status and grades |
 
-### Table: course
-
-| Trigger | Type | Action |
-|---------|------|--------|
-| `course_before_insert` | BEFORE INSERT | Captures CURRENT_USER into audit_user_id |
-| `course_before_update` | BEFORE UPDATE | Captures CURRENT_USER into audit_user_id |
-| `course_after_insert` | AFTER INSERT | Logs INSERT to course_audit |
-| `course_after_update` | AFTER UPDATE | Logs UPDATE to course_audit (if values changed) |
-| `course_after_delete` | AFTER DELETE | Logs DELETE to course_audit |
-
-### Table: student
-
-| Trigger | Type | Action |
-|---------|------|--------|
-| `student_before_insert` | BEFORE INSERT | Captures CURRENT_USER into audit_user_id |
-| `student_before_update` | BEFORE UPDATE | Captures CURRENT_USER into audit_user_id |
-| `student_after_insert` | AFTER INSERT | Logs INSERT to student_audit |
-| `student_after_update` | AFTER UPDATE | Logs UPDATE to student_audit (if values changed) |
-| `student_after_delete` | AFTER DELETE | Logs DELETE to student_audit |
-
-### Table: user
-
-| Trigger | Type | Action |
-|---------|------|--------|
-| `user_before_insert` | BEFORE INSERT | Generates system_userid and campus_email |
-| `user_before_update` | BEFORE UPDATE | Regenerates system_userid and campus_email if name changed |
-| `user_after_insert` | AFTER INSERT | Logs INSERT to user_audit |
-| `user_after_update` | AFTER UPDATE | Logs UPDATE to user_audit (if values changed) |
-| `user_after_delete` | AFTER DELETE | Logs DELETE to user_audit |
+**User System ID and Campus Email** (Fully Implemented)
+The user table includes a BEFORE INSERT trigger that automatically generates system_userid and campus_email based on user names:
+- system_userid: First 2 letters of first name + up to 5 letters of last name
+- campus_email: {system_userid}@wsc.edu
+- Automatic uniqueness handling with numeric suffixes for duplicates
 
 ---
 
@@ -234,10 +215,7 @@ The system automatically cleans up old audit records every month using scheduled
 
 | Event Name | Schedule | Action |
 |------------|----------|--------|
-| `truncate_enrollment_audit_monthly` | Monthly | Deletes enrollment_audit records older than 30 days |
-| `truncate_course_audit_monthly` | Monthly | Deletes course_audit records older than 30 days |
-| `truncate_student_audit_monthly` | Monthly | Deletes student_audit records older than 30 days |
-| `truncate_user_audit_monthly` | Monthly | Deletes user_audit records older than 30 days |
+| `evt_truncate_enrollment_audit_monthly` | 1st of each month at 02:00 UTC | Deletes enrollment_audit records older than 30 days |
 
 ### View Scheduled Events
 
