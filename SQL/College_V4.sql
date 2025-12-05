@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `af25nathm1_collegev4` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `af25nathm1_collegev4`;
--- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `af25onalm1_collegev4` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `af25onalm1_collegev4`;
+-- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
 --
--- Host: localhost    Database: af25nathm1_collegev4
+-- Host: localhost    Database: af25onalm1_collegev4
 -- ------------------------------------------------------
 -- Server version	5.5.5-10.11.6-MariaDB-0+deb12u1
 
@@ -60,7 +60,7 @@ CREATE TABLE `course` (
   `course_audited` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`course_id`),
   KEY `course_name` (`course_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,6 +72,120 @@ LOCK TABLES `course` WRITE;
 INSERT INTO `course` VALUES (1,'Introduction to Computer Science',3,'2025-11-11 10:00:00',1,'2025-11-11 10:00:00'),(2,'Data Structures',3,'2025-11-11 10:01:00',1,'2025-11-11 10:01:00'),(3,'Algorithms',4,'2025-11-11 10:02:00',1,'2025-11-11 10:02:00'),(4,'Database Design',3,'2025-11-11 10:03:00',1,'2025-11-11 10:03:00'),(5,'Calculus I',4,'2025-11-11 10:04:00',1,'2025-11-11 10:04:00'),(6,'Linear Algebra',3,'2025-11-11 10:05:00',1,'2025-11-11 10:05:00'),(7,'Physics I',4,'2025-11-11 10:06:00',1,'2025-11-11 10:06:00'),(8,'Philosophy 101',3,'2025-11-11 10:07:00',1,'2025-11-11 10:07:00'),(9,'Literature Survey',3,'2025-11-11 10:08:00',1,'2025-11-11 10:08:00'),(10,'World History',3,'2025-11-11 10:09:00',1,'2025-11-11 10:09:00');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb3 */ ;
+/*!50003 SET character_set_results = utf8mb3 */ ;
+/*!50003 SET collation_connection  = utf8mb3_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`af25onalm1`@`localhost`*/ /*!50003 TRIGGER trg_course_after_insert
+AFTER INSERT ON course
+FOR EACH ROW
+BEGIN
+    INSERT INTO course_audit (
+        course_id, 
+        action,
+        new_course_name, 
+        new_course_credits,
+        new_audit_user_id,
+        changed_by
+    ) VALUES (
+        NEW.course_id, 
+        'INSERT',
+        NEW.course_name, 
+        NEW.course_credits,
+        NEW.audit_user_id,
+        SUBSTRING_INDEX(CURRENT_USER(), '@', 1)
+    );
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb3 */ ;
+/*!50003 SET character_set_results = utf8mb3 */ ;
+/*!50003 SET collation_connection  = utf8mb3_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`af25onalm1`@`localhost`*/ /*!50003 TRIGGER trg_course_after_update
+AFTER UPDATE ON course
+FOR EACH ROW
+BEGIN
+    -- Simple check for changes (no variable declaration needed)
+    IF (OLD.course_name != NEW.course_name OR 
+        OLD.course_credits != NEW.course_credits OR
+        OLD.audit_user_id != NEW.audit_user_id) THEN
+        
+        INSERT INTO course_audit (
+            course_id, 
+            action,
+            old_course_name, 
+            new_course_name,
+            old_course_credits, 
+            new_course_credits,
+            old_audit_user_id,
+            new_audit_user_id,
+            changed_by
+        ) VALUES (
+            NEW.course_id, 
+            'UPDATE',
+            OLD.course_name, 
+            NEW.course_name,
+            OLD.course_credits, 
+            NEW.course_credits,
+            OLD.audit_user_id,
+            NEW.audit_user_id,
+            SUBSTRING_INDEX(CURRENT_USER(), '@', 1)
+        );
+    END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb3 */ ;
+/*!50003 SET character_set_results = utf8mb3 */ ;
+/*!50003 SET collation_connection  = utf8mb3_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`af25onalm1`@`localhost`*/ /*!50003 TRIGGER trg_course_after_delete
+AFTER DELETE ON course
+FOR EACH ROW
+BEGIN
+    INSERT INTO course_audit (
+        course_id, 
+        action,
+        old_course_name, 
+        old_course_credits,
+        old_audit_user_id,
+        changed_by
+    ) VALUES (
+        OLD.course_id, 
+        'DELETE',
+        OLD.course_name, 
+        OLD.course_credits,
+        OLD.audit_user_id,
+        SUBSTRING_INDEX(CURRENT_USER(), '@', 1)
+    );
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `course_audit`
@@ -86,15 +200,18 @@ CREATE TABLE `course_audit` (
   `action` varchar(50) DEFAULT NULL,
   `old_course_name` varchar(255) DEFAULT NULL,
   `new_course_name` varchar(255) DEFAULT NULL,
-  `old_course_credit_hours` int(11) DEFAULT NULL,
-  `new_course_credit_hours` int(11) DEFAULT NULL,
+  `old_course_credits` int(11) DEFAULT NULL,
+  `new_course_credits` int(11) DEFAULT NULL,
+  `old_audit_user_id` varchar(50) DEFAULT NULL,
+  `new_audit_user_id` varchar(50) DEFAULT NULL,
   `changed_by` varchar(50) NOT NULL,
   `changed_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`course_audit_id`),
   KEY `fk_course_audit_course_idx` (`course_id`),
   KEY `idx_course_audit_changed_at` (`changed_at`),
+  KEY `idx_course_audit_action` (`action`),
   CONSTRAINT `fk_course_audit_course` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,6 +220,7 @@ CREATE TABLE `course_audit` (
 
 LOCK TABLES `course_audit` WRITE;
 /*!40000 ALTER TABLE `course_audit` DISABLE KEYS */;
+INSERT INTO `course_audit` VALUES (1,11,'INSERT',NULL,'Test Course - Database Management',NULL,3,NULL,'0','af25onalm1','2025-12-05 23:23:44'),(2,11,'UPDATE','Test Course - Database Management','Updated - Database Management',3,4,'0','0','af25onalm1','2025-12-05 23:24:17'),(3,11,'DELETE','Updated - Database Management',NULL,4,NULL,'0',NULL,'af25onalm1','2025-12-05 23:24:34');
 /*!40000 ALTER TABLE `course_audit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -590,7 +708,7 @@ LOCK TABLES `user_audit` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'af25nathm1_collegev4'
+-- Dumping events for database 'af25onalm1_collegev4'
 --
 /*!50106 SET @save_time_zone= @@TIME_ZONE */ ;
 /*!50106 DROP EVENT IF EXISTS `truncate_course_audit_monthly` */;
@@ -605,7 +723,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = '+00:00' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`af25nathm1`@`localhost`*/ /*!50106 EVENT `truncate_course_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-04 19:34:05' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `course_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`af25onalm1`@`localhost`*/ /*!50106 EVENT `truncate_course_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-04 19:34:05' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `course_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -623,7 +741,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = '+00:00' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`af25nathm1`@`localhost`*/ /*!50106 EVENT `truncate_enrollment_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-05 21:30:08' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `enrollment_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`af25onalm1`@`localhost`*/ /*!50106 EVENT `truncate_enrollment_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-05 21:30:08' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `enrollment_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -641,7 +759,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = '+00:00' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`af25nathm1`@`localhost`*/ /*!50106 EVENT `truncate_student_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-04 19:34:05' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `student_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`af25onalm1`@`localhost`*/ /*!50106 EVENT `truncate_student_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-04 19:34:05' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `student_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -659,7 +777,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = '+00:00' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`af25nathm1`@`localhost`*/ /*!50106 EVENT `truncate_user_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-04 19:34:05' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `user_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`af25onalm1`@`localhost`*/ /*!50106 EVENT `truncate_user_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-04 19:34:05' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `user_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -669,7 +787,7 @@ DELIMITER ;
 /*!50106 SET TIME_ZONE= @save_time_zone */ ;
 
 --
--- Dumping routines for database 'af25nathm1_collegev4'
+-- Dumping routines for database 'af25onalm1_collegev4'
 --
 /*!50003 DROP FUNCTION IF EXISTS `available_seats` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -681,7 +799,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25nathm1`@`localhost` FUNCTION `available_seats`(in_section_id INT) RETURNS int(11)
+CREATE DEFINER=`af25onalm1`@`localhost` FUNCTION `available_seats`(in_section_id INT) RETURNS int(11)
     READS SQL DATA
     DETERMINISTIC
 BEGIN
@@ -718,7 +836,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25nathm1`@`localhost` FUNCTION `generate_base_userid`(fname VARCHAR(50), lname VARCHAR(50)) RETURNS varchar(50) CHARSET utf8mb4 COLLATE utf8mb4_general_ci
+CREATE DEFINER=`af25onalm1`@`localhost` FUNCTION `generate_base_userid`(fname VARCHAR(50), lname VARCHAR(50)) RETURNS varchar(50) CHARSET utf8mb4 COLLATE utf8mb4_general_ci
     DETERMINISTIC
 BEGIN
     DECLARE base VARCHAR(50);
@@ -747,7 +865,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25nathm1`@`localhost` PROCEDURE `assign_employee_to_department`(
+CREATE DEFINER=`af25onalm1`@`localhost` PROCEDURE `assign_employee_to_department`(
     IN in_employee_id INT,
     IN in_department_id INT
 )
@@ -796,7 +914,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25nathm1`@`localhost` PROCEDURE `sp_enroll_student`(
+CREATE DEFINER=`af25onalm1`@`localhost` PROCEDURE `sp_enroll_student`(
   IN p_student_id INT,
   IN p_semester_id INT,
   IN p_audit_user_id INT,
@@ -866,7 +984,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25nathm1`@`localhost` PROCEDURE `sp_log_enrollment_audit`(
+CREATE DEFINER=`af25onalm1`@`localhost` PROCEDURE `sp_log_enrollment_audit`(
     IN p_enrollment_id INT,
     IN p_action VARCHAR(50),
     IN p_old_status VARCHAR(255),
@@ -903,4 +1021,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-12-05 15:55:04
+-- Dump completed on 2025-12-05 17:52:41
