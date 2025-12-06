@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `af25onalm1_collegev4` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `af25onalm1_collegev4`;
--- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `af25nathm1_collegev4` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `af25nathm1_collegev4`;
+-- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
 --
--- Host: localhost    Database: af25onalm1_collegev4
+-- Host: localhost    Database: af25nathm1_collegev4
 -- ------------------------------------------------------
 -- Server version	5.5.5-10.11.6-MariaDB-0+deb12u1
 
@@ -81,7 +81,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`af25onalm1`@`localhost`*/ /*!50003 TRIGGER trg_course_after_insert
+/*!50003 CREATE*/ /*!50017 DEFINER=`af25nathm1`@`localhost`*/ /*!50003 TRIGGER trg_course_after_insert
 AFTER INSERT ON course
 FOR EACH ROW
 BEGIN
@@ -115,7 +115,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`af25onalm1`@`localhost`*/ /*!50003 TRIGGER trg_course_after_update
+/*!50003 CREATE*/ /*!50017 DEFINER=`af25nathm1`@`localhost`*/ /*!50003 TRIGGER trg_course_after_update
 AFTER UPDATE ON course
 FOR EACH ROW
 BEGIN
@@ -161,7 +161,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`af25onalm1`@`localhost`*/ /*!50003 TRIGGER trg_course_after_delete
+/*!50003 CREATE*/ /*!50017 DEFINER=`af25nathm1`@`localhost`*/ /*!50003 TRIGGER trg_course_after_delete
 AFTER DELETE ON course
 FOR EACH ROW
 BEGIN
@@ -220,7 +220,7 @@ CREATE TABLE `course_audit` (
 
 LOCK TABLES `course_audit` WRITE;
 /*!40000 ALTER TABLE `course_audit` DISABLE KEYS */;
-INSERT INTO `course_audit` VALUES (1,11,'INSERT',NULL,'Test Course - Database Management',NULL,3,NULL,'0','af25onalm1','2025-12-05 23:23:44'),(2,11,'UPDATE','Test Course - Database Management','Updated - Database Management',3,4,'0','0','af25onalm1','2025-12-05 23:24:17'),(3,11,'DELETE','Updated - Database Management',NULL,4,NULL,'0',NULL,'af25onalm1','2025-12-05 23:24:34');
+INSERT INTO `course_audit` VALUES (1,11,'INSERT',NULL,'Test Course - Database Management',NULL,3,NULL,'0','af25nathm1','2025-12-05 23:23:44'),(2,11,'UPDATE','Test Course - Database Management','Updated - Database Management',3,4,'0','0','af25nathm1','2025-12-05 23:24:17'),(3,11,'DELETE','Updated - Database Management',NULL,4,NULL,'0',NULL,'af25nathm1','2025-12-05 23:24:34');
 /*!40000 ALTER TABLE `course_audit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -380,40 +380,6 @@ LOCK TABLES `enrollment_audit` WRITE;
 /*!40000 ALTER TABLE `enrollment_audit` DISABLE KEYS */;
 INSERT INTO `enrollment_audit` VALUES (1,1,'INSERT',NULL,'Active',NULL,1,'root','2025-11-11 10:00:00'),(2,5,'INSERT',NULL,'Active',NULL,1,'root','2025-11-11 10:04:00'),(3,5,'UPDATE','Active','Completed',1,2,'root','2025-11-11 10:30:00'),(4,7,'INSERT',NULL,'Active',NULL,NULL,'root','2025-11-11 10:06:00'),(5,7,'UPDATE','Active','Withdrawn',NULL,NULL,'root','2025-11-11 10:35:00'),(6,10,'INSERT',NULL,'Active',NULL,1,'root','2025-11-11 10:09:00'),(7,10,'UPDATE','Active','Completed',1,3,'root','2025-11-11 10:40:00');
 /*!40000 ALTER TABLE `enrollment_audit` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `enrollment_backup`
---
-
-DROP TABLE IF EXISTS `enrollment_backup`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `enrollment_backup` (
-  `enrollment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `enrollment_status` varchar(255) DEFAULT '"Active"',
-  `enrolment_created` timestamp NOT NULL DEFAULT current_timestamp(),
-  `audit_user_id` int(11) NOT NULL,
-  `enrollment_audited` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `student_student_id` int(11) NOT NULL,
-  `semester_id` int(11) NOT NULL,
-  `lookup_grade_id` int(11) DEFAULT NULL,
-  `section_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`enrollment_id`),
-  KEY `fk_enrollment_student1_idx` (`student_student_id`),
-  KEY `fk_enrollment_semester1_idx` (`semester_id`),
-  KEY `fk_enrollment_lookup_grade1_idx` (`lookup_grade_id`),
-  KEY `idx_enrollment_section` (`section_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `enrollment_backup`
---
-
-LOCK TABLES `enrollment_backup` WRITE;
-/*!40000 ALTER TABLE `enrollment_backup` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enrollment_backup` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -708,7 +674,7 @@ LOCK TABLES `user_audit` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'af25onalm1_collegev4'
+-- Dumping events for database 'af25nathm1_collegev4'
 --
 /*!50106 SET @save_time_zone= @@TIME_ZONE */ ;
 /*!50106 DROP EVENT IF EXISTS `truncate_course_audit_monthly` */;
@@ -723,7 +689,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = '+00:00' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`af25onalm1`@`localhost`*/ /*!50106 EVENT `truncate_course_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-04 19:34:05' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `course_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`af25nathm1`@`localhost`*/ /*!50106 EVENT `truncate_course_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-04 19:34:05' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `course_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -741,7 +707,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = '+00:00' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`af25onalm1`@`localhost`*/ /*!50106 EVENT `truncate_enrollment_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-05 21:30:08' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `enrollment_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`af25nathm1`@`localhost`*/ /*!50106 EVENT `truncate_enrollment_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-05 21:30:08' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `enrollment_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -759,7 +725,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = '+00:00' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`af25onalm1`@`localhost`*/ /*!50106 EVENT `truncate_student_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-04 19:34:05' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `student_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`af25nathm1`@`localhost`*/ /*!50106 EVENT `truncate_student_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-04 19:34:05' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `student_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -777,7 +743,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = '+00:00' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`af25onalm1`@`localhost`*/ /*!50106 EVENT `truncate_user_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-04 19:34:05' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `user_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`af25nathm1`@`localhost`*/ /*!50106 EVENT `truncate_user_audit_monthly` ON SCHEDULE EVERY 1 MONTH STARTS '2025-12-04 19:34:05' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `user_audit` WHERE `changed_at` < DATE_SUB(NOW(), INTERVAL 1 MONTH) */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -787,7 +753,7 @@ DELIMITER ;
 /*!50106 SET TIME_ZONE= @save_time_zone */ ;
 
 --
--- Dumping routines for database 'af25onalm1_collegev4'
+-- Dumping routines for database 'af25nathm1_collegev4'
 --
 /*!50003 DROP FUNCTION IF EXISTS `available_seats` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -799,7 +765,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25onalm1`@`localhost` FUNCTION `available_seats`(in_section_id INT) RETURNS int(11)
+CREATE DEFINER=`af25nathm1`@`localhost` FUNCTION `available_seats`(in_section_id INT) RETURNS int(11)
     READS SQL DATA
     DETERMINISTIC
 BEGIN
@@ -836,7 +802,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25onalm1`@`localhost` FUNCTION `generate_base_userid`(fname VARCHAR(50), lname VARCHAR(50)) RETURNS varchar(50) CHARSET utf8mb4 COLLATE utf8mb4_general_ci
+CREATE DEFINER=`af25nathm1`@`localhost` FUNCTION `generate_base_userid`(fname VARCHAR(50), lname VARCHAR(50)) RETURNS varchar(50) CHARSET utf8mb4 COLLATE utf8mb4_general_ci
     DETERMINISTIC
 BEGIN
     DECLARE base VARCHAR(50);
@@ -865,7 +831,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25onalm1`@`localhost` PROCEDURE `assign_employee_to_department`(
+CREATE DEFINER=`af25nathm1`@`localhost` PROCEDURE `assign_employee_to_department`(
     IN in_employee_id INT,
     IN in_department_id INT
 )
@@ -914,7 +880,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25onalm1`@`localhost` PROCEDURE `sp_enroll_student`(
+CREATE DEFINER=`af25nathm1`@`localhost` PROCEDURE `sp_enroll_student`(
   IN p_student_id INT,
   IN p_semester_id INT,
   IN p_audit_user_id INT,
@@ -984,7 +950,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`af25onalm1`@`localhost` PROCEDURE `sp_log_enrollment_audit`(
+CREATE DEFINER=`af25nathm1`@`localhost` PROCEDURE `sp_log_enrollment_audit`(
     IN p_enrollment_id INT,
     IN p_action VARCHAR(50),
     IN p_old_status VARCHAR(255),
@@ -1021,4 +987,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-12-05 17:52:41
+-- Dump completed on 2025-12-05 18:44:27
