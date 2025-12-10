@@ -635,6 +635,48 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES (1,'Dr. Robert','Smith','2025-11-11 10:00:00','root','2025-11-11 10:00:00',1,NULL,'drrobert','drrobert@wsc.edu'),(2,'Dr. Sarah','Johnson','2025-11-11 10:01:00','root','2025-11-11 10:01:00',2,NULL,'drsarah','drsarah@wsc.edu'),(3,'Prof. Michael','Brown','2025-11-11 10:02:00','root','2025-11-11 10:02:00',3,NULL,'profmich','profmich@wsc.edu'),(4,'Prof. Jennifer','Davis','2025-11-11 10:03:00','root','2025-11-11 10:03:00',4,NULL,'profjenn','profjenn@wsc.edu'),(5,'Mrs. Emily','Wilson','2025-11-11 10:04:00','root','2025-11-11 10:04:00',5,NULL,'mrsemily','mrsemily@wsc.edu'),(6,'Mr. James','Taylor','2025-11-11 10:05:00','root','2025-11-11 10:05:00',6,NULL,'mrjames','mrjames@wsc.edu'),(7,'Dr. Patricia','Anderson','2025-11-11 10:06:00','root','2025-11-11 10:06:00',7,NULL,'drpatric','drpatric@wsc.edu'),(8,'Prof. David','Thomas','2025-11-11 10:07:00','root','2025-11-11 10:07:00',8,NULL,'profdavi','profdavi@wsc.edu'),(9,'Mrs. Karen','Jackson','2025-11-11 10:08:00','root','2025-11-11 10:08:00',9,NULL,'mrskaren','mrskaren@wsc.edu'),(10,'Dr. Charles','White','2025-11-11 10:09:00','root','2025-11-11 10:09:00',10,NULL,'drcharl','drcharl@wsc.edu'),(11,'Alice','Martinez','2025-11-11 10:10:00','root','2025-11-11 10:10:00',NULL,1,'alicmart','alicmart@wsc.edu'),(12,'Bob','Garcia','2025-11-11 10:11:00','root','2025-11-11 10:11:00',NULL,2,'bobgarc','bobgarc@wsc.edu'),(13,'Carol','Rodriguez','2025-11-11 10:12:00','root','2025-11-11 10:12:00',NULL,3,'carolro','carolro@wsc.edu'),(14,'David','Lee','2025-11-11 10:13:00','root','2025-11-11 10:13:00',NULL,4,'davidle','davidle@wsc.edu'),(15,'Emma','Perez','2025-11-11 10:14:00','root','2025-11-11 10:14:00',NULL,5,'emmaper','emmaper@wsc.edu'),(16,'Frank','Hernandez','2025-11-11 10:15:00','root','2025-11-11 10:15:00',NULL,6,'frankhern','frankhern@wsc.edu'),(17,'Grace','Lopez','2025-11-11 10:16:00','root','2025-11-11 10:16:00',NULL,7,'gracelop','gracelop@wsc.edu'),(18,'Henry','Gonzalez','2025-11-11 10:17:00','root','2025-11-11 10:17:00',NULL,8,'henrygon','henrygon@wsc.edu'),(19,'Ivy','Wilson','2025-11-11 10:18:00','root','2025-11-11 10:18:00',NULL,9,'ivywilso','ivywilso@wsc.edu'),(20,'Jack','Anderson','2025-11-11 10:19:00','root','2025-11-11 10:19:00',NULL,10,'jackandr','jackandr@wsc.edu'),(21,'Karen','Thomas','2025-11-11 10:20:00','root','2025-11-11 10:20:00',NULL,11,'karentha','karentha@wsc.edu'),(22,'Leo','Taylor','2025-11-11 10:21:00','root','2025-11-11 10:21:00',NULL,12,'leotayl','leotayl@wsc.edu'),(23,'Maria','Moore','2025-11-11 10:22:00','root','2025-11-11 10:22:00',NULL,13,'mariamoo','mariamoo@wsc.edu'),(24,'Nathan','Jackson','2025-11-11 10:23:00','root','2025-11-11 10:23:00',NULL,14,'nathanja','nathanja@wsc.edu'),(25,'Olivia','White','2025-11-11 10:24:00','root','2025-11-11 10:24:00',NULL,15,'oliviaw','oliviaw@wsc.edu');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`af25nathm1`@`localhost`*/ /*!50003 TRIGGER `user_before_insert` BEFORE INSERT ON `user`
+FOR EACH ROW
+BEGIN
+    DECLARE v_base VARCHAR(50);
+    DECLARE v_suffix INT DEFAULT 0;
+    DECLARE v_userid VARCHAR(50);
+    DECLARE v_exists INT DEFAULT 1;
+
+    -- Generate base userid: first 2 letters of fname + up to 5 letters of lname
+    SET v_base = LOWER(CONCAT(
+        LEFT(NEW.user_fname, 2),
+        LEFT(NEW.user_lname, LEAST(5, CHAR_LENGTH(NEW.user_lname)))
+    ));
+
+    -- Check if base userid already exists, add suffix if needed
+    SET v_userid = v_base;
+    WHILE v_exists > 0 DO
+        SELECT COUNT(*) INTO v_exists FROM user WHERE system_userid = v_userid;
+        IF v_exists > 0 THEN
+            SET v_suffix = v_suffix + 1;
+            SET v_userid = CONCAT(v_base, v_suffix);
+        END IF;
+    END WHILE;
+
+    -- Set system_userid and campus_email
+    SET NEW.system_userid = v_userid;
+    SET NEW.campus_email = CONCAT(v_userid, '@wsc.edu');
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `user_audit`
@@ -987,4 +1029,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-12-05 18:44:27
+-- Dump completed on 2025-12-10 17:03:28
